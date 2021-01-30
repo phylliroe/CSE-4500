@@ -1,0 +1,26 @@
+{
+  "name": "CSE-4500",
+  "version": "1.0.0",
+  "description": "CSE 4500 Spring 2021",
+  "main": "api_test.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.1",
+    "socket.io": "^3.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phylliroe/CSE-4500.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/phylliroe/CSE-4500/issues"
+  },
+  "homepage": "https://github.com/phylliroe/CSE-4500#readme"
+}
