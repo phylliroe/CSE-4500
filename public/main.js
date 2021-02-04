@@ -1,8 +1,7 @@
 console.log("script is working");
+
 var socket = io("http://192.168.86.50:8080");
-
 var username;
-
 
 window.onload = () => {
     enter_name();
