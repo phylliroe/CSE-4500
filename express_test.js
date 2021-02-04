@@ -4,7 +4,7 @@ var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 var port = process.env.PORT || 8080;
 
-var clients = []
+var clients = [];
 
 app.use(express.static(`${__dirname}/public`));
 
@@ -13,19 +13,25 @@ io.on('connection', socket => {
     socket.emit("hello", {data: socket.username});
 
     socket.on('disconnect', () => {
-        console.log("client is gone");
+        for (let i = 0; i < clients.length; i++) {
+            if (clients[i] === socket.username) {
+                clients.splice(i, 1);
+                console.log(socket.username + " has disconnected!");
+                console.log(clients);
+            }
+        }
     });
 
     // emit to all clients
     socket.on('message', data => {
         console.log(data);
-        io.emit("message_sent", data);
+        //io.emit("message_sent", data);
+        io.emit("message_sent", {username: socket.username, message: data});
     });
 
     socket.on('name', data => {
-        console.log(`${data} connected!`);
+        console.log(`${data} joined!`);
         socket.username = data;
-        console.log("username is: " + socket.username);
         clients.push(data);
         console.log(clients);
         console.log("There is now " + clients.length + " clients");
