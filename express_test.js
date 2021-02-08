@@ -5,12 +5,21 @@ var io = require('socket.io')(http);
 var port = process.env.PORT || 8080;
 
 var clients = [];
+var timer = 100;
 
 app.use(express.static(`${__dirname}/public`));
 
+setInterval(() => {
+    if (timer > 0) {
+        timer--;
+        io.emit("time_down", timer);
+    }
+}, 1000);
+
 io.on('connection', socket => {
     console.log("connected")
-    socket.emit("hello", {data: socket.username});
+    //socket.emit("hello", {data: socket.username});
+    socket.emit("timer", timer);
 
     socket.on('disconnect', () => {
         for (let i = 0; i < clients.length; i++) {
@@ -35,6 +44,8 @@ io.on('connection', socket => {
         clients.push(data);
         console.log(clients);
         console.log("There is now " + clients.length + " clients");
+
+        io.emit("user_added", clients);
     });
 });
 

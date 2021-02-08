@@ -12,6 +12,14 @@ socket.on("hello", data => {
     console.log(data);
 });
 
+socket.on("timer", val => {
+    document.getElementById("timer").innerHTML = val;
+});
+
+socket.on("time_down", val => {
+    document.getElementById("timer").innerHTML = val;
+});
+
 socket.on("message_sent", msg => {
     //let new_msg = `<li>${msg}</li>`;
     //document.getElementById("messages").innerHTML += new_msg;
