@@ -3,10 +3,17 @@ console.log("script is working");
 var socket = io("http://192.168.86.50:8080");
 var username;
 
+var canvas = document.getElementById("username");
+
+
 window.onload = () => {
     enter_name();
 }
 
+/**
+ * 
+ * SOCKET IO TESTS
+ */
 socket.on("hello", data => {
     console.log("server said hey");
     console.log(data);
@@ -20,17 +27,11 @@ socket.on("time_down", val => {
     document.getElementById("timer").innerHTML = val;
 });
 
-socket.on("message_sent", msg => {
-    //let new_msg = `<li>${msg}</li>`;
-    //document.getElementById("messages").innerHTML += new_msg;
-    //console.log(msg.message);
-    //let data = JSON.parse(msg);
-    //let messages = document.getElementById("messages");
-    //let new_message = '<li>' + msg.username + ": " + msg.message + '</li>';
-    //console.log(new_message);
-    //document.getElementById("messages").innerHTML += new_message;
-    //messages.prepend(new_message);
+socket.on("first_message", () => {
+    console.log("I am first!");
+});
 
+socket.on("message_sent", msg => {
     let new_item = document.createElement("li");
     let new_message = document.createTextNode(msg.username + ": " + msg.message);
     new_item.appendChild(new_message);
@@ -70,3 +71,42 @@ function enter_name() {
         }
     }
 }
+
+/*
+DRAWING TESTS
+*/
+//var canvas = document.getElementById("username");
+console.log(canvas);
+var c = canvas.getContext('2D');
+
+var pos = {
+    x: 0,
+    y: 0
+}
+
+canvas.addEventListener('mousemove', draw);
+canvas.addEventListener('mousedown', set_pos);
+canvas.addEventListener('mouseenter', set_pos);
+
+function draw(e) {
+    if (e.buttons === 1) {
+        return;
+    }
+
+    c.beginPath();
+    c.lineWidth = 2;
+    c.lineCap = 'round';
+    c.strokeStyle = '#0000ff';
+
+    c.moveTo(pos.x, pos.y);
+    set_pos(e);
+    c.lineTo(pos.x, pos.y);
+
+    c.stroke();
+}
+
+function set_pos(e) {
+    pos.x = e.clientX;
+    pos.y = e.clientY;
+}
+

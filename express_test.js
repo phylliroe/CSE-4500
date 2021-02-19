@@ -5,7 +5,7 @@ var io = require('socket.io')(http);
 var port = process.env.PORT || 8080;
 
 var clients = [];
-var timer = 100;
+var timer = 60;
 
 app.use(express.static(`${__dirname}/public`));
 
@@ -46,6 +46,13 @@ io.on('connection', socket => {
         console.log("There is now " + clients.length + " clients");
 
         io.emit("user_added", clients);
+
+        if (clients.length == 1) {
+            console.log(socket.username +" is the first user!");
+            socket.join("first")
+            console.log(io.sockets.adapter.rooms['first']);
+            io.to("first").emit("first_message");
+        }
     });
 });
 

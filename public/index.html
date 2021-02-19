@@ -13,7 +13,12 @@
         <input id="text" autocomplete="off" /><button id="btn" onclick="send();">Send</button>
         <ul id="messages"></ul>
 
+        <br>
+        <canvas id="canvas" height="400" width="600" style="border:1px solid #000000;"></canvas>
+
         <script>
+            console.log(document.getElementById("canvas"));
+
             let input = document.getElementById("text");
             input.addEventListener("keyup", (event) => {
                 if (event.keyCode === 13) {
