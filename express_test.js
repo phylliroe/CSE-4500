@@ -1,4 +1,5 @@
 var express = require('express');
+//var cors = require('cors');
 var app = express();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
@@ -7,6 +8,8 @@ var port = process.env.PORT || 8080;
 var clients = [];
 var timer = 60;
 
+//app.use(cors());
+//app.options('*', cors());
 app.use(express.static(`${__dirname}/public`));
 
 setInterval(() => {
@@ -53,6 +56,10 @@ io.on('connection', socket => {
             console.log(io.sockets.adapter.rooms['first']);
             io.to("first").emit("first_message");
         }
+    });
+
+    socket.on('reset_time', () => {
+        timer = 60;        
     });
 });
 

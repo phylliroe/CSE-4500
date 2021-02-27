@@ -3,11 +3,13 @@ console.log("script is working");
 var socket = io("http://192.168.86.50:8080");
 var username;
 
-var canvas = document.getElementById("username");
-
+//var canvas = document.getElementById("canvas");
+var test = document.getElementById("timer");
+console.log(test);
 
 window.onload = () => {
     enter_name();
+
 }
 
 /**
@@ -72,29 +74,33 @@ function enter_name() {
     }
 }
 
+function reset_timer() {
+    socket.emit("reset_time");
+}
+
 /*
 DRAWING TESTS
 */
-//var canvas = document.getElementById("username");
+var canvas = document.getElementById("canvas");
 console.log(canvas);
-var c = canvas.getContext('2D');
+var c = canvas.getContext('2d');
 
 var pos = {
     x: 0,
     y: 0
-}
+};
 
 canvas.addEventListener('mousemove', draw);
 canvas.addEventListener('mousedown', set_pos);
 canvas.addEventListener('mouseenter', set_pos);
 
 function draw(e) {
-    if (e.buttons === 1) {
+    if (e.buttons !== 1) {
         return;
     }
 
     c.beginPath();
-    c.lineWidth = 2;
+    c.lineWidth = 4;
     c.lineCap = 'round';
     c.strokeStyle = '#0000ff';
 
@@ -106,7 +112,12 @@ function draw(e) {
 }
 
 function set_pos(e) {
-    pos.x = e.clientX;
-    pos.y = e.clientY;
+    //console.log("pos: " + pos.x + ", " + pos.y);
+    //console.log("e: " + e.clientX + ", " + e.clientY);
+    pos.x = e.clientX - canvas.offsetLeft;
+    pos.y = e.clientY - canvas.offsetTop;
 }
 
+function clear_canvas() {
+    c.clearRect(0, 0, canvas.width, canvas.height);
+}

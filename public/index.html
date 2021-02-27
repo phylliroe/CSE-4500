@@ -4,7 +4,7 @@
         <title>Node App</title>
 
         <script src="/socket.io/socket.io.js"></script>
-        <script src="/main.js"></script>
+        <script async src="/main.js"></script>
     </head>
     <body>
         <p id="username">Hello</p>
@@ -15,9 +15,12 @@
 
         <br>
         <canvas id="canvas" height="400" width="600" style="border:1px solid #000000;"></canvas>
+        <br>
+        <button id="canvas_clear" onclick="clear_canvas();">Clear Canvas</Canvas></button>
+        <button id="timer_rest" onclick="reset_timer();">Reset Timer</button>
 
         <script>
-            console.log(document.getElementById("canvas"));
+            //console.log(document.getElementById("canvas"));
 
             let input = document.getElementById("text");
             input.addEventListener("keyup", (event) => {

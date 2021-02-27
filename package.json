@@ -4,6 +4,7 @@
   "description": "CSE 4500 Spring 2021",
   "main": "api_test.js",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "node-fetch": "^2.6.1",
     "python-shell": "^2.0.3",
