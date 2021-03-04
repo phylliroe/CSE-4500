@@ -94,6 +94,7 @@ canvas.addEventListener('mousemove', draw);
 canvas.addEventListener('mousedown', set_pos);
 canvas.addEventListener('mouseenter', set_pos);
 
+
 function draw(e) {
     if (e.buttons !== 1) {
         return;
@@ -107,7 +108,6 @@ function draw(e) {
     c.moveTo(pos.x, pos.y);
     set_pos(e);
     c.lineTo(pos.x, pos.y);
-
     c.stroke();
 }
 
@@ -118,6 +118,12 @@ function set_pos(e) {
     pos.y = e.clientY - canvas.offsetTop;
 }
 
+
 function clear_canvas() {
-    c.clearRect(0, 0, canvas.width, canvas.height);
+    //c.clearRect(0, 0, canvas.width, canvas.height);
+    socket.emit("clear_canvas");
 }
+
+socket.on("clear", () => {
+    c.clearRect(0, 0, canvas.width, canvas.height);
+});

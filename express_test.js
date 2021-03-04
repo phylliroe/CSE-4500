@@ -61,6 +61,10 @@ io.on('connection', socket => {
     socket.on('reset_time', () => {
         timer = 60;        
     });
+
+    socket.on("clear_canvas", () => {
+        io.emit("clear");
+    });
 });
 
 http.listen(port, () => {
