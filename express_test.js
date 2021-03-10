@@ -65,6 +65,11 @@ io.on('connection', socket => {
     socket.on("clear_canvas", () => {
         io.emit("clear");
     });
+
+    socket.on("pos", data => {
+        console.log(data);
+        socket.broadcast.emit("draw", data);
+    });
 });
 
 http.listen(port, () => {

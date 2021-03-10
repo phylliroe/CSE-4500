@@ -87,9 +87,64 @@ var c = canvas.getContext('2d');
 
 var pos = {
     x: 0,
-    y: 0
+    y: 0, 
+    prev_x: 0,
+    prev_y: 0
 };
 
+var is_drawing = false;
+
+
+canvas.addEventListener('mousedown', (e) => {
+    is_drawing = true;
+    pos.prev_x = pos.x;
+    pos.prev_y = pos.y;
+});
+
+canvas.addEventListener('mouseup', (e) => {
+    is_drawing = false;
+    pos.prev_x = 0;
+    pos.prev_y = 0;
+});
+
+canvas.addEventListener('mousemove', (e) => {
+    pos.x = e.clientX - canvas.offsetLeft;
+    pos.y = e.clientY - canvas.offsetTop;
+
+    if (is_drawing) {
+        socket.emit("pos", {x1: pos.x, y1:pos.y, x2: pos.prev_x, y2:pos.prev_y});
+        draw(pos.prev_x, pos.prev_y,pos.x, pos.y);
+        pos.prev_x = pos.x;
+        pos.prev_y = pos.y;
+    }
+});
+
+//canvas.addEventListener('mou')
+
+function draw(prevx, prevy, x, y) {
+    c.beginPath();
+    c.lineWidth = 4;
+    c.lineCap = 'round';
+    c.strokeStyle = '#0000ff';
+
+    ///set_pos();
+
+    c.moveTo(prevx, prevy);
+    c.lineTo(x, y);
+    c.stroke();
+
+    //prevx = x;
+    //prevy = y;
+}
+
+function set_pos(e) {
+    //console.log("pos: " + pos.x + ", " + pos.y);
+    //console.log("e: " + e.clientX + ", " + e.clientY);
+    pos.x = e.clientX - canvas.offsetLeft;
+    pos.y = e.clientY - canvas.offsetTop;
+}
+
+/*
 canvas.addEventListener('mousemove', draw);
 canvas.addEventListener('mousedown', set_pos);
 canvas.addEventListener('mouseenter', set_pos);
@@ -109,6 +164,7 @@ function draw(e) {
     set_pos(e);
     c.lineTo(pos.x, pos.y);
     c.stroke();
+    socket.emit("pos", {x: pos.x, y: pos.y});
 }
 
 function set_pos(e) {
@@ -117,7 +173,7 @@ function set_pos(e) {
     pos.x = e.clientX - canvas.offsetLeft;
     pos.y = e.clientY - canvas.offsetTop;
 }
-
+*/
 
 function clear_canvas() {
     //c.clearRect(0, 0, canvas.width, canvas.height);
@@ -126,4 +182,17 @@ function clear_canvas() {
 
 socket.on("clear", () => {
     c.clearRect(0, 0, canvas.width, canvas.height);
+});
+
+/*
+socket.on("draw", data => {
+    console.log(data);
+    pos.x = data.x;
+    pos.y = data.y;
+    //draw();
+});
+*/
+
+socket.on('draw', data => {
+    draw(data.x2, data.y2, data.x1, data.y1);
 });
