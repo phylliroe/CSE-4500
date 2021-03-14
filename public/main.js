@@ -46,6 +46,10 @@ socket.on("message_sent", msg => {
     messages.insertBefore(new_item, messages.childNodes[0]);
 });
 
+socket.on("word", word => {
+    document.getElementById("word").innerHTML = word;
+});
+
 function check_ul_size() {
     let size = document.getElementById("messages").getElementsByTagName("li").length;
     console.log(size);
@@ -76,6 +80,10 @@ function enter_name() {
 
 function reset_timer() {
     socket.emit("reset_time");
+}
+
+function get_word() {
+    socket.emit("new_word");
 }
 
 /*

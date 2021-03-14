@@ -5,8 +5,12 @@ var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 var port = process.env.PORT || 8080;
 
+var Sentencer = require('sentencer');
+
 var clients = [];
 var timer = 60;
+
+var word;
 
 //app.use(cors());
 //app.options('*', cors());
@@ -21,6 +25,9 @@ setInterval(() => {
 
 io.on('connection', socket => {
     console.log("connected")
+
+    //let n = Sentencer.make("{{ noun }}");
+    //console.log(n);
     //socket.emit("hello", {data: socket.username});
     socket.emit("timer", timer);
 
@@ -38,6 +45,14 @@ io.on('connection', socket => {
     socket.on('message', data => {
         console.log(data);
         //io.emit("message_sent", data);
+
+        if (data.toLowerCase() == word) {
+            console.log(data + " = " + word);
+        }
+        else {
+            console.log(data + " != " + word);
+        }
+
         io.emit("message_sent", {username: socket.username, message: data});
     });
 
@@ -69,6 +84,11 @@ io.on('connection', socket => {
     socket.on("pos", data => {
         console.log(data);
         socket.broadcast.emit("draw", data);
+    });
+
+    socket.on("new_word", () => {
+        word = Sentencer.make("{{ noun }}");
+        io.emit("word", word);
     });
 });
 
