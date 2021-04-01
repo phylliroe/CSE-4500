@@ -101,7 +101,7 @@ var pos = {
 };
 
 var is_drawing = false;
-
+var can_draw = false;
 
 canvas.addEventListener('mousedown', (e) => {
     is_drawing = true;
@@ -119,7 +119,7 @@ canvas.addEventListener('mousemove', (e) => {
     pos.x = e.clientX - canvas.offsetLeft;
     pos.y = e.clientY - canvas.offsetTop;
 
-    if (is_drawing) {
+    if (is_drawing && can_draw) {
         socket.emit("pos", {x1: pos.x, y1:pos.y, x2: pos.prev_x, y2:pos.prev_y});
         draw(pos.prev_x, pos.prev_y,pos.x, pos.y);
         pos.prev_x = pos.x;
@@ -203,4 +203,9 @@ socket.on("draw", data => {
 
 socket.on('draw', data => {
     draw(data.x2, data.y2, data.x1, data.y1);
+});
+
+socket.on("can_draw", () => {
+    can_draw = true;
+    console.log(can_draw);
 });

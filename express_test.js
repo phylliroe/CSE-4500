@@ -39,6 +39,16 @@ io.on('connection', socket => {
                 console.log(clients);
             }
         }
+
+        //console.log(socket.adapter.rooms);
+        let room = io.sockets.adapter.rooms.get("first");
+        console.log(room);
+        if (typeof room === "undefined") {
+            console.log("first is gone");
+        }
+        else {
+            console.log("first is still here!");
+        }
     });
 
     // emit to all clients
@@ -68,8 +78,15 @@ io.on('connection', socket => {
         if (clients.length == 1) {
             console.log(socket.username +" is the first user!");
             socket.join("first")
-            console.log(io.sockets.adapter.rooms['first']);
+            console.log(socket.adapter.rooms);
+            console.log(io.sockets.adapter.rooms.get("first"))
+            //console.log(socket.adapter.rooms["first"]);
             io.to("first").emit("first_message");
+            io.to("first").emit("can_draw");
+        }
+        else {
+            socket.join("guessers");
+            console.log(socket.adapter.rooms);
         }
     });
 
@@ -82,7 +99,7 @@ io.on('connection', socket => {
     });
 
     socket.on("pos", data => {
-        console.log(data);
+        //console.log(data);
         socket.broadcast.emit("draw", data);
     });
 
