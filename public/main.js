@@ -47,7 +47,7 @@ socket.on("message_sent", msg => {
 });
 
 socket.on("word", word => {
-    document.getElementById("word").innerHTML = word;
+    document.getElementById("word2").innerHTML = word;
 });
 
 function check_ul_size() {

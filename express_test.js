@@ -91,7 +91,7 @@ io.on('connection', socket => {
     });
 
     socket.on('reset_time', () => {
-        timer = 60;        
+        timer = 61;        
     });
 
     socket.on("clear_canvas", () => {

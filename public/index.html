@@ -3,19 +3,23 @@
     <head>
         <title>Node App</title>
 
+        <link rel="stylesheet" href="/styles.css"> 
+
         <script src="/socket.io/socket.io.js"></script>
         <script async src="/main.js"></script>
     </head>
     <body>
         <p id="username">Hello</p>
         <div id="timer"></div>
-        <div id="word"></div>
+        <div id="word">
+            <p id="word2"></p>
+        </div>
         <br>
         <input id="text" autocomplete="off" spellcheck="true"/><button id="btn" onclick="send();">Send</button>
         <ul id="messages"></ul>
 
         <br>
-        <canvas id="canvas" height="400" width="600" style="border:1px solid #000000;"></canvas>
+        <canvas id="canvas" height="600" width="800"></canvas>
         <br>
         <button id="canvas_clear" onclick="clear_canvas();">Clear Canvas</Canvas></button>
         <button id="timer_rest" onclick="reset_timer();">Reset Timer</button>

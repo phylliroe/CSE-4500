@@ -1,0 +1,31 @@
+#canvas {
+    padding: 0;
+    margin: auto;
+    display: block;
+    /*width: 600px;
+    height: 400px;*/
+    position: absolute;
+    /*top: 0;
+    bottom: 0;*/
+    left: 0;
+    right: 0;
+    border: 1px solid #000;
+}
+
+#word {
+    border: 1px solid #000;
+    display: block;
+    margin:auto;
+    left: 0;
+    right: 0;
+    position: absolute;
+}
+
+#word2 {
+    left: 0;
+    right: 0;
+    margin: auto;
+    text-align: center;
+    font-weight: bold;
+    font-size:x-large;
+}
