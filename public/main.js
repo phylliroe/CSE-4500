@@ -35,6 +35,7 @@ socket.on("first_message", () => {
 
 socket.on("message_sent", msg => {
     let new_item = document.createElement("li");
+    new_item.className = "user_message";
     let new_message = document.createTextNode(msg.username + ": " + msg.message);
     new_item.appendChild(new_message);
     let messages = document.getElementById("messages");
@@ -53,7 +54,7 @@ socket.on("word", word => {
 function check_ul_size() {
     let size = document.getElementById("messages").getElementsByTagName("li").length;
     console.log(size);
-    return (size == 5);
+    return (size == 10);
 }
 
 function send() {

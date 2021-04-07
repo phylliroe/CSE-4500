@@ -10,10 +10,11 @@
     left: 0;
     right: 0;
     border: 1px solid #000;
+    z-index: 1;
 }
 
 #word {
-    border: 1px solid #000;
+    /*border: 1px solid #000;*/
     display: block;
     margin:auto;
     left: 0;
@@ -21,11 +22,21 @@
     position: absolute;
 }
 
-#word2 {
+#word2, #timer {
     left: 0;
     right: 0;
     margin: auto;
     text-align: center;
     font-weight: bold;
-    font-size:x-large;
+    font-size:xx-large;
+}
+
+
+#messages {
+    z-index: -1;
+    float: left;
+}
+
+li.user_message {
+    z-index: -1;
 }
