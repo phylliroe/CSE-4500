@@ -1,3 +1,4 @@
+/* Styles for drawing canvas */
 #canvas {
     padding: 0;
     margin: auto;
@@ -11,8 +12,40 @@
     right: 0;
     border: 1px solid #000;
     z-index: 1;
+    margin-top: 5%;
 }
 
+#user_text {
+    padding: 0;
+    margin: auto;
+    display: block;
+    /*width: 600px;
+    height: 400px;*/
+    position: absolute;
+    /*top: 0;*/
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    text-align: center;
+    margin-bottom: 5%;
+}
+
+#user_text2 {
+    padding: 0;
+    margin: auto;
+    display: block;
+    /*width: 600px;
+    height: 400px;*/
+    position: absolute;
+    /*top: 0;*/
+    left: 0;
+    right: 1;
+    z-index: 1;
+    text-align: center;
+}
+
+/* Styles for generated word */
 #word {
     /*border: 1px solid #000;*/
     display: block;
@@ -22,7 +55,7 @@
     position: absolute;
 }
 
-#word2, #timer {
+#word2, #timer{
     left: 0;
     right: 0;
     margin: auto;
