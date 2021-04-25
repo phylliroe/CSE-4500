@@ -33,6 +33,15 @@ socket.on("first_message", () => {
     console.log("I am first!");
 });
 
+socket.on("user_added", username => {
+    console.log(username);
+    let user = document.createElement("li");
+    user.className = "user";
+    user.appendChild(document.createTextNode(username));
+    let user_list = document.getElementById("users");
+    user_list.insertBefore(user, user_list.childNodes[0]);
+});
+
 socket.on("message_sent", msg => {
     let new_item = document.createElement("li");
     new_item.className = "user_message";
@@ -54,7 +63,7 @@ socket.on("word", word => {
 function check_ul_size() {
     let size = document.getElementById("messages").getElementsByTagName("li").length;
     console.log(size);
-    return (size == 10);
+    return (size == 20);
 }
 
 function send() {

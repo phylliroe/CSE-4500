@@ -73,7 +73,7 @@ io.on('connection', socket => {
         console.log(clients);
         console.log("There is now " + clients.length + " clients");
 
-        io.emit("user_added", clients);
+        io.emit("user_added", socket.username);
 
         if (clients.length == 1) {
             console.log(socket.username +" is the first user!");

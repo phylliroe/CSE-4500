@@ -10,7 +10,7 @@
     bottom: 0;*/
     left: 0;
     right: 0;
-    border: 1px solid #000;
+    border: 3px solid #000;
     z-index: 1;
     margin-top: 5%;
 }
@@ -68,6 +68,10 @@
 #messages {
     z-index: -1;
     float: left;
+}
+
+#users {
+    float: right;
 }
 
 li.user_message {

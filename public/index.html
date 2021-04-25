@@ -16,18 +16,17 @@
         </div>
         <br>
         <ul id="messages"></ul>
+        <ul id="users"><li>ooooooo</li></ul>
         <br>
         <canvas id="canvas" height="600" width="800"></canvas>
         <br>
-        <span id="user_text">(You): <input id="text" autocomplete="off" spellcheck="true"/><button id="btn" onclick="send();">Send</button></span>
+        <span id="user_text"><div>(You): </div><input id="text" autocomplete="off" spellcheck="true"/><button id="btn" onclick="send();">Send</button></span>
        <span id="user_text2">
         <button id="canvas_clear" onclick="clear_canvas();">Clear Canvas</Canvas></button>
         <button id="timer_rest" onclick="reset_timer();">Reset Timer</button>
         <button id="word_button" onclick="get_word();">New Word</button></span>
 
         <script>
-            //console.log(document.getElementById("canvas"));
-
             let input = document.getElementById("text");
             input.addEventListener("keyup", (event) => {
                 if (event.keyCode === 13) {
