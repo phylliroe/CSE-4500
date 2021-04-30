@@ -33,6 +33,18 @@ socket.on("first_message", () => {
     console.log("I am first!");
 });
 
+socket.on("existing_players", players => {
+    console.log(players);
+    let player_list = document.getElementById("users");
+
+    for (let i = 0; i < players.length; i++) {
+        let player = document.createElement("li");
+        player.className = "user";
+        player.appendChild(document.createTextNode(players[i]));
+        player_list.insertBefore(player, player_list.childNodes[0]);
+    }
+});
+
 socket.on("user_added", username => {
     console.log(username);
     let user = document.createElement("li");
@@ -40,6 +52,8 @@ socket.on("user_added", username => {
     user.appendChild(document.createTextNode(username));
     let user_list = document.getElementById("users");
     user_list.insertBefore(user, user_list.childNodes[0]);
+
+    set_input_name(username);
 });
 
 socket.on("message_sent", msg => {
@@ -60,6 +74,15 @@ socket.on("word", word => {
     document.getElementById("word2").innerHTML = word;
 });
 
+socket.on("user_disconnect", username => {
+    console.log(username + " has left!");
+    remove_user(username);
+});
+
+function set_input_name(username) {
+    document.getElementById("player_name").innerHTML = username;
+}
+
 function check_ul_size() {
     let size = document.getElementById("messages").getElementsByTagName("li").length;
     console.log(size);
@@ -74,6 +97,20 @@ function send() {
         console.log(message);
         socket.emit("message", message);
         txt.value = "";
+    }
+}
+
+function remove_user(user) {
+    let user_list = document.getElementById("users");
+    let usernames = user_list.getElementsByTagName("li");
+    //console.log(usernames);
+
+    for (const i of usernames) {
+        //console.log(i.textContent);
+        if (i.textContent == user) {
+            console.log("Removing " + i.textContent);
+            user_list.removeChild(i);
+        }
     }
 }
 

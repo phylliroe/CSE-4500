@@ -26,6 +26,10 @@ setInterval(() => {
 io.on('connection', socket => {
     console.log("connected")
 
+    if (clients.length != 0) {
+        socket.emit("existing_players", clients);
+    }
+
     //let n = Sentencer.make("{{ noun }}");
     //console.log(n);
     //socket.emit("hello", {data: socket.username});
@@ -37,17 +41,18 @@ io.on('connection', socket => {
                 clients.splice(i, 1);
                 console.log(socket.username + " has disconnected!");
                 console.log(clients);
+                io.emit("user_disconnect", socket.username);
             }
         }
 
         //console.log(socket.adapter.rooms);
-        let room = io.sockets.adapter.rooms.get("first");
+        let room = io.sockets.adapter.rooms.get("drawer");
         console.log(room);
         if (typeof room === "undefined") {
-            console.log("first is gone");
+            console.log("drawer is gone");
         }
         else {
-            console.log("first is still here!");
+            console.log("drawer is still here!");
         }
     });
 
@@ -77,12 +82,12 @@ io.on('connection', socket => {
 
         if (clients.length == 1) {
             console.log(socket.username +" is the first user!");
-            socket.join("first")
+            socket.join("drawer")
             console.log(socket.adapter.rooms);
-            console.log(io.sockets.adapter.rooms.get("first"))
+            console.log(io.sockets.adapter.rooms.get("drawer"))
             //console.log(socket.adapter.rooms["first"]);
-            io.to("first").emit("first_message");
-            io.to("first").emit("can_draw");
+            io.to("drawer").emit("first_message");
+            io.to("drawer").emit("can_draw");
         }
         else {
             socket.join("guessers");
