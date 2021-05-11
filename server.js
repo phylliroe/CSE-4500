@@ -10,6 +10,8 @@ var Sentencer = require('sentencer');
 var clients = [];
 var timer = 60;
 
+var player_scores = {}
+
 var word;
 
 //app.use(cors());
@@ -27,7 +29,7 @@ io.on('connection', socket => {
     console.log("connected")
 
     if (clients.length != 0) {
-        socket.emit("existing_players", clients);
+     
     }
 
     //let n = Sentencer.make("{{ noun }}");
@@ -36,6 +38,10 @@ io.on('connection', socket => {
     socket.emit("timer", timer);
 
     socket.on('disconnect', () => {
+        delete player_scores[socket.username];
+        console.log(player_scores);
+        io.emit("existing_players", player_scores);
+
         for (let i = 0; i < clients.length; i++) {
             if (clients[i] === socket.username) {
                 clients.splice(i, 1);
@@ -63,6 +69,11 @@ io.on('connection', socket => {
 
         if (data.toLowerCase() == word) {
             console.log(data + " = " + word);
+            socket.emit("correct");
+            var current_score = player_scores[socket.username]
+            player_scores[socket.username] = current_score + 10
+            console.log(player_scores);
+            io.emit("existing_players", player_scores);
         }
         else {
             console.log(data + " != " + word);
@@ -78,7 +89,10 @@ io.on('connection', socket => {
         console.log(clients);
         console.log("There is now " + clients.length + " clients");
 
-        io.emit("user_added", socket.username);
+        player_scores[data] = 0;
+        console.log(player_scores);
+
+        //io.emit("user_added", socket.username);
 
         if (clients.length == 1) {
             console.log(socket.username +" is the first user!");
@@ -93,6 +107,8 @@ io.on('connection', socket => {
             socket.join("guessers");
             console.log(socket.adapter.rooms);
         }
+
+        io.emit("existing_players", player_scores);
     });
 
     socket.on('reset_time', () => {

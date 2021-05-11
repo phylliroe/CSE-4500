@@ -2,6 +2,7 @@ console.log("script is working");
 
 var socket = io("http://192.168.86.50:8080");
 var username;
+var score = 0;
 
 //var canvas = document.getElementById("canvas");
 var test = document.getElementById("timer");
@@ -36,20 +37,30 @@ socket.on("first_message", () => {
 socket.on("existing_players", players => {
     console.log(players);
     let player_list = document.getElementById("users");
+    player_list.innerHTML = "";
 
+    Object.keys(players).forEach(function(key) {
+        let player = document.createElement("li");
+        player.className = "user";
+        player.appendChild(document.createTextNode(key + " " + players[key]));
+        player_list.insertBefore(player, player_list.childNodes[0]);
+    });
+
+    /*
     for (let i = 0; i < players.length; i++) {
         let player = document.createElement("li");
         player.className = "user";
         player.appendChild(document.createTextNode(players[i]));
         player_list.insertBefore(player, player_list.childNodes[0]);
     }
+    */
 });
 
 socket.on("user_added", username => {
     console.log(username);
     let user = document.createElement("li");
     user.className = "user";
-    user.appendChild(document.createTextNode(username));
+    user.appendChild(document.createTextNode(username + " " + score));
     let user_list = document.getElementById("users");
     user_list.insertBefore(user, user_list.childNodes[0]);
 
@@ -72,6 +83,12 @@ socket.on("message_sent", msg => {
 
 socket.on("word", word => {
     document.getElementById("word2").innerHTML = word;
+});
+
+socket.on("correct", () => {
+    console.log("You're correct!");
+    score += 10;
+    console.log(score);
 });
 
 socket.on("user_disconnect", username => {
@@ -193,60 +210,17 @@ function draw(prevx, prevy, x, y) {
 }
 
 function set_pos(e) {
-    //console.log("pos: " + pos.x + ", " + pos.y);
-    //console.log("e: " + e.clientX + ", " + e.clientY);
     pos.x = e.clientX - canvas.offsetLeft;
     pos.y = e.clientY - canvas.offsetTop;
 }
-
-/*
-canvas.addEventListener('mousemove', draw);
-canvas.addEventListener('mousedown', set_pos);
-canvas.addEventListener('mouseenter', set_pos);
-
-
-function draw(e) {
-    if (e.buttons !== 1) {
-        return;
-    }
-
-    c.beginPath();
-    c.lineWidth = 4;
-    c.lineCap = 'round';
-    c.strokeStyle = '#0000ff';
-
-    c.moveTo(pos.x, pos.y);
-    set_pos(e);
-    c.lineTo(pos.x, pos.y);
-    c.stroke();
-    socket.emit("pos", {x: pos.x, y: pos.y});
-}
-
-function set_pos(e) {
-    //console.log("pos: " + pos.x + ", " + pos.y);
-    //console.log("e: " + e.clientX + ", " + e.clientY);
-    pos.x = e.clientX - canvas.offsetLeft;
-    pos.y = e.clientY - canvas.offsetTop;
-}
-*/
 
 function clear_canvas() {
-    //c.clearRect(0, 0, canvas.width, canvas.height);
     socket.emit("clear_canvas");
 }
 
 socket.on("clear", () => {
     c.clearRect(0, 0, canvas.width, canvas.height);
 });
-
-/*
-socket.on("draw", data => {
-    console.log(data);
-    pos.x = data.x;
-    pos.y = data.y;
-    //draw();
-});
-*/
 
 socket.on('draw', data => {
     draw(data.x2, data.y2, data.x1, data.y1);
