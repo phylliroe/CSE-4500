@@ -3,6 +3,7 @@ console.log("script is working");
 var socket = io("http://192.168.86.50:8080");
 var username;
 var score = 0;
+var word = "";
 
 //var canvas = document.getElementById("canvas");
 var test = document.getElementById("timer");
@@ -10,7 +11,7 @@ console.log(test);
 
 window.onload = () => {
     enter_name();
-
+    get_word();
 }
 
 /**
@@ -45,15 +46,6 @@ socket.on("existing_players", players => {
         player.appendChild(document.createTextNode(key + " " + players[key]));
         player_list.insertBefore(player, player_list.childNodes[0]);
     });
-
-    /*
-    for (let i = 0; i < players.length; i++) {
-        let player = document.createElement("li");
-        player.className = "user";
-        player.appendChild(document.createTextNode(players[i]));
-        player_list.insertBefore(player, player_list.childNodes[0]);
-    }
-    */
 });
 
 socket.on("user_added", username => {
@@ -64,7 +56,7 @@ socket.on("user_added", username => {
     let user_list = document.getElementById("users");
     user_list.insertBefore(user, user_list.childNodes[0]);
 
-    set_input_name(username);
+    //set_input_name(username);
 });
 
 socket.on("message_sent", msg => {
@@ -82,7 +74,9 @@ socket.on("message_sent", msg => {
 });
 
 socket.on("word", word => {
-    document.getElementById("word2").innerHTML = word;
+    if (can_draw) {
+        document.getElementById("word2").innerHTML = word;
+    }
 });
 
 socket.on("correct", () => {
@@ -95,6 +89,16 @@ socket.on("user_disconnect", username => {
     console.log(username + " has left!");
     remove_user(username);
 });
+
+function show_word() {
+    let word = document.getElementById("word2");
+    if (can_draw) {
+        word.style.display = "block";
+    }
+    else {
+        word.style.display = "none";
+    }
+}
 
 function set_input_name(username) {
     document.getElementById("player_name").innerHTML = username;

@@ -1,4 +1,5 @@
 var express = require('express');
+const { emit } = require('process');
 //var cors = require('cors');
 var app = express();
 var http = require('http').createServer(app);
@@ -23,14 +24,20 @@ setInterval(() => {
         timer--;
         io.emit("time_down", timer);
     }
+    else {
+        next_word();
+    }
 }, 1000);
+
+function next_word() {
+    word = Sentencer.make("{{ noun }}");
+    io.emit("clear");
+    io.emit("word", word);
+    timer = 61;
+}
 
 io.on('connection', socket => {
     console.log("connected")
-
-    if (clients.length != 0) {
-     
-    }
 
     //let n = Sentencer.make("{{ noun }}");
     //console.log(n);
@@ -74,6 +81,11 @@ io.on('connection', socket => {
             player_scores[socket.username] = current_score + 10
             console.log(player_scores);
             io.emit("existing_players", player_scores);
+
+            //word = Sentencer.make("{{ noun }}");
+            //io.emit("word", word);
+            //timer = 61;
+            next_word();
         }
         else {
             console.log(data + " != " + word);

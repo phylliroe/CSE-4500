@@ -48,7 +48,6 @@
 /* Styles for generated word */
 #word {
     /*border: 1px solid #000;*/
-    display: block;
     margin:auto;
     left: 0;
     right: 0;
